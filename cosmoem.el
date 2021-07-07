@@ -1,9 +1,9 @@
-;;; hercules.el --- An auto-magical, which-key-based hydra banisher. -*- lexical-binding: t; -*-
+;;; cosmoem.el --- An auto-magical, which-key-based hydra banisher. -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019 Uros Perisic
 
 ;; Author: Uros Perisic
-;; URL: https://gitlab.com/jjzmajic/hercules
+;; URL: https://gitlab.com/jjzmajic/cosmoem
 
 ;; Version: 0.3
 ;; Keywords: convenience
@@ -27,7 +27,7 @@
 ;;; Commentary:
 ;; An auto-magical, which-key-based hydra banisher.
 
-;; With almost no set-up code, Hercules lets you call any group of
+;; With almost no set-up code, cosmoem lets you call any group of
 ;; related command sequentially with no prefix keys, while showing a
 ;; handy popup to remember the bindings for those commands.  It can
 ;; create both of these (the grouped commands, and the popup) from any
@@ -36,22 +36,22 @@
 ;;; Code:
 (require 'which-key)
 
-(defvar hercules--popup-showing-p nil
-  "Whether or not hercules.el has been summoned.
+(defvar cosmoem--popup-showing-p nil
+  "Whether or not cosmoem.el has been summoned.
 Used in addition to `which-key-persistent-popup' in case other
 packages start relying on it.")
 
-(defvar hercules-show-prefix nil
+(defvar cosmoem-show-prefix nil
   "One of `which-key-show-prefix'.
-Used as value of `which-key-show-prefix' in hercules.el
+Used as value of `which-key-show-prefix' in cosmoem.el
 pop-ups.")
 
-(defun hercules--hide (&optional keymap flatten &rest _)
-  "Dismiss hercules.el.
+(defun cosmoem--hide (&optional keymap flatten &rest _)
+  "Dismiss cosmoem.el.
 Pop KEYMAP from `overriding-terminal-local-map' when it is not
-nil.  If FLATTEN is t, `hercules--show' was called with the same
+nil.  If FLATTEN is t, `cosmoem--show' was called with the same
 argument.  Restore `which-key--update' after such a call."
-  (setq hercules--popup-showing-p nil
+  (setq cosmoem--popup-showing-p nil
         which-key-persistent-popup nil)
   (which-key--hide-popup)
   (when keymap
@@ -60,16 +60,16 @@ argument.  Restore `which-key--update' after such a call."
   (when flatten
     (advice-remove #'which-key--update #'ignore)))
 
-(defun hercules--show (&optional keymap flatten transient &rest _)
-  "Summon hercules.el showing KEYMAP.
+(defun cosmoem--show (&optional keymap flatten transient &rest _)
+  "Summon cosmoem.el showing KEYMAP.
 Push KEYMAP onto `overriding-terminal-local-map' when TRANSIENT
 is nil.  Otherwise use `set-transient-map'.  If FLATTEN is t,
 show full keymap \(including sub-maps\), and prevent redrawing on
 prefix-key press by overriding `which-key--update'."
-  (setq hercules--popup-showing-p t
+  (setq cosmoem--popup-showing-p t
         which-key-persistent-popup t)
   (when keymap
-    (let ((which-key-show-prefix hercules-show-prefix))
+    (let ((which-key-show-prefix cosmoem-show-prefix))
       (if flatten
           (progn
             (which-key--show-keymap
@@ -79,39 +79,39 @@ prefix-key press by overriding `which-key--update'."
          (symbol-name keymap) (symbol-value keymap) nil nil t)))
     (if transient
         (set-transient-map (symbol-value keymap)
-                           t #'hercules--hide)
+                           t #'cosmoem--hide)
       (internal-push-keymap (symbol-value keymap)
                             'overriding-terminal-local-map))))
 
-(defun hercules--toggle (&optional keymap flatten transient &rest _)
-  "Toggle hercules.el showing KEYMAP.
-Pass TRANSIENT and FLATTEN to `hercules--hide', and
-`hercules--show'."
-  (if hercules--popup-showing-p
-      (hercules--hide keymap)
-    (hercules--show keymap flatten transient)))
+(defun cosmoem--toggle (&optional keymap flatten transient &rest _)
+  "Toggle cosmoem.el showing KEYMAP.
+Pass TRANSIENT and FLATTEN to `cosmoem--hide', and
+`cosmoem--show'."
+  (if cosmoem--popup-showing-p
+      (cosmoem--hide keymap)
+    (cosmoem--show keymap flatten transient)))
 
-(defun hercules--enlist (exp)
+(defun cosmoem--enlist (exp)
   "Return EXP wrapped in a list, or as-is if already a list."
   (declare (pure t) (side-effect-free t))
   (if (listp exp) exp (list exp)))
 
-(defun hercules--advise (funs hst &optional keymap flatten transient)
-  "Either `hide', `show' or `toggle' hercules.el depending on HST.
+(defun cosmoem--advise (funs hst &optional keymap flatten transient)
+  "Either `hide', `show' or `toggle' cosmoem.el depending on HST.
 Do so when calling FUNS showing KEYMAP.  Pass TRANSIENT to
-`hercules--hide', `hercules--show', or `hercules--toggle'."
+`cosmoem--hide', `cosmoem--show', or `cosmoem--toggle'."
   (cl-loop
-   for fun in (hercules--enlist funs) do
+   for fun in (cosmoem--enlist funs) do
    (progn
      (unless (symbol-function fun)
        (fset fun (lambda () (interactive))))
      (advice-add fun :before
                  (pcase hst
-                   ('toggle (apply-partially #'hercules--toggle keymap flatten transient))
-                   ('show (apply-partially #'hercules--show keymap flatten transient))
-                   ('hide (apply-partially #'hercules--hide keymap flatten)))))))
+                   ('toggle (apply-partially #'cosmoem--toggle keymap flatten transient))
+                   ('show (apply-partially #'cosmoem--show keymap flatten transient))
+                   ('hide (apply-partially #'cosmoem--hide keymap flatten)))))))
 
-(defun hercules--graylist (keys funs keymap &optional whitelist)
+(defun cosmoem--graylist (keys funs keymap &optional whitelist)
   "Unbind KEYS and keys bound to FUNS from KEYMAP.
 If WHITELIST is t, Unbind all keys not in KEYS or bound to FUNS
 from KEYMAP."
@@ -121,8 +121,8 @@ from KEYMAP."
                       (symbol-value keymap))
                   as fun = (intern fun-name)
                   when
-                  (or (member key (hercules--enlist keys))
-                      (member fun (hercules--enlist funs)))
+                  (or (member key (cosmoem--enlist keys))
+                      (member fun (cosmoem--enlist funs)))
                   collect (cons key fun))))
 
     (if whitelist
@@ -133,18 +133,18 @@ from KEYMAP."
       (cl-loop for (key . fun) in keymap-alist do
                (define-key (symbol-value keymap) (kbd key) nil)))))
 
-(defun hercules--graylist-after-load (keys funs keymap &optional
+(defun cosmoem--graylist-after-load (keys funs keymap &optional
                                            package whitelist)
-  "Call `hercules--graylist' after PACKAGE has been loaded.
+  "Call `cosmoem--graylist' after PACKAGE has been loaded.
 Pass KEYS, FUNS, KEYMAP, and WHITELIST directly to it.  If
-PACKAGE is nil, simply call `hercules--graylist'."
+PACKAGE is nil, simply call `cosmoem--graylist'."
   (if package
       (with-eval-after-load package
-        (hercules--graylist keys funs keymap whitelist))
-    (hercules--graylist keys funs keymap whitelist)))
+        (cosmoem--graylist keys funs keymap whitelist))
+    (cosmoem--graylist keys funs keymap whitelist)))
 
 ;;;###autoload
-(cl-defun hercules-def
+(cl-defun cosmoem-def
     (&key toggle-funs
           show-funs
           hide-funs
@@ -156,14 +156,14 @@ PACKAGE is nil, simply call `hercules--graylist'."
           blacklist-funs
           whitelist-funs
           package)
-  "Summon hercules.el to banish your hydras.
+  "Summon cosmoem.el to banish your hydras.
 
 TOGGLE-FUNS, SHOW-FUNS, and HIDE-FUNS define entry and exit
-points for hercules.el to show KEYMAP. Both single functions and
-lists work. As all other arguments to `hercules-def', these must
+points for cosmoem.el to show KEYMAP. Both single functions and
+lists work. As all other arguments to `cosmoem-def', these must
 be quoted.
 
-KEYMAP specifies the keymap for hercules.el to make a pop-up out
+KEYMAP specifies the keymap for cosmoem.el to make a pop-up out
 of.  If KEYMAP is nil, it is assumed that one of SHOW-FUNS or
 TOGGLE-FUNS results in a `which-key--show-popup' call. This may
 be useful for functions such as `which-key-show-top-level'. I use
@@ -172,7 +172,7 @@ time.
 
 FLATTEN displays all maps and sub-maps without redrawing on
 prefix-key presses. This allows for multi-key combinations in a
-single hercules.el buffer.
+single cosmoem.el buffer.
 
 BLACKLIST-KEYS and WHITELIST-KEYS specify
 which (`kbd'-interpretable) keys should removed from/allowed to
@@ -193,23 +193,23 @@ loaded package. Its contents should be the package name as a
 quoted symbol.
 
 Setting TRANSIENT to t allows you to get away with not setting
-HIDE-FUNS or TOGGLE-FUNS by dismissing hercules.el whenever you
+HIDE-FUNS or TOGGLE-FUNS by dismissing cosmoem.el whenever you
 press a key not on KEYMAP."
   ;; tweak keymaps
   (when keymap
     (when (or whitelist-keys whitelist-funs)
-      (hercules--graylist-after-load
+      (cosmoem--graylist-after-load
        whitelist-keys whitelist-funs
        keymap package t))
     (when (or blacklist-keys blacklist-funs)
-      (hercules--graylist-after-load
+      (cosmoem--graylist-after-load
        blacklist-keys blacklist-funs
        keymap package nil)))
 
   ;; define entry points
-  (hercules--advise toggle-funs 'toggle keymap flatten transient)
-  (hercules--advise show-funs 'show keymap flatten transient)
-  (hercules--advise hide-funs 'hide keymap flatten))
+  (cosmoem--advise toggle-funs 'toggle keymap flatten transient)
+  (cosmoem--advise show-funs 'show keymap flatten transient)
+  (cosmoem--advise hide-funs 'hide keymap flatten))
 
-(provide 'hercules)
-;;; hercules.el ends here
+(provide 'cosmoem)
+;;; cosmoem.el ends here

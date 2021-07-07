@@ -1,4 +1,4 @@
-(hercules-def
+(cosmoem-def
  ;; read further to see why this works
  :toggle-funs #'org-babel-mode
  :keymap 'org-babel-map
