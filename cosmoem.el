@@ -41,47 +41,63 @@
 Used in addition to `which-key-persistent-popup' in case other
 packages start relying on it.")
 
+;;;###autoload
+(defun any-popup-showing-p nil (interactive) (or cosmoem--popup-showing-p (which-key--popup-showing-p)))
+
 (defvar cosmoem-show-prefix nil
   "One of `which-key-show-prefix'.
 Used as value of `which-key-show-prefix' in cosmoem.el
 pop-ups.")
 
+;;;###autoload
 (defun cosmoem--hide (&optional keymap flatten &rest _)
-  "Dismiss cosmoem.el.
-Pop KEYMAP from `overriding-terminal-local-map' when it is not
-nil.  If FLATTEN is t, `cosmoem--show' was called with the same
-argument.  Restore `which-key--update' after such a call."
-  (setq cosmoem--popup-showing-p nil
-        which-key-persistent-popup nil)
-  (which-key--hide-popup)
-  (when keymap
-    (internal-pop-keymap (symbol-value keymap)
-                         'overriding-terminal-local-map))
-  (when flatten
-    (advice-remove #'which-key--update #'ignore)))
+        "Dismiss cosmoem.el.
+    Pop KEYMAP from `overriding-terminal-local-map' when it is not
+    nil.  If FLATTEN is t, `cosmoem--show' was called with the same
+    argument.  Restore `which-key--update' after such a call."
+        (interactive)
+        (setq cosmoem--popup-showing-p nil)
+        (setq overriding-terminal-local-map nil)
+        (when flatten (advice-remove #'which-key--update #'ignore))
+        (meq/which-key-show-top-level))
 
+;;;###autoload
 (defun cosmoem--show (&optional keymap flatten transient &rest _)
-  "Summon cosmoem.el showing KEYMAP.
-Push KEYMAP onto `overriding-terminal-local-map' when TRANSIENT
-is nil.  Otherwise use `set-transient-map'.  If FLATTEN is t,
-show full keymap \(including sub-maps\), and prevent redrawing on
-prefix-key press by overriding `which-key--update'."
-  (setq cosmoem--popup-showing-p t
-        which-key-persistent-popup t)
-  (when keymap
-    (let ((which-key-show-prefix cosmoem-show-prefix))
-      (if flatten
-          (progn
-            (which-key--show-keymap
-             (symbol-name keymap) (symbol-value keymap) nil t t)
-            (advice-add #'which-key--update :override #'ignore))
-        (which-key--show-keymap
-         (symbol-name keymap) (symbol-value keymap) nil nil t)))
-    (if transient
-        (set-transient-map (symbol-value keymap)
-                           t #'cosmoem--hide)
-      (internal-push-keymap (symbol-value keymap)
-                            'overriding-terminal-local-map))))
+    "Summon cosmoem.el showing KEYMAP.
+    Push KEYMAP onto `overriding-terminal-local-map' when TRANSIENT
+    is nil.  Otherwise use `set-transient-map'.  If FLATTEN is t,
+    show full keymap \(including sub-maps\), and prevent redrawing on
+    prefix-key press by overriding `which-key--update'."
+    (interactive)
+    (when which-key-persistent-popup
+        (setq cosmoem--popup-showing-p t)
+        (when keymap
+            (let ((which-key-show-prefix cosmoem-show-prefix))
+            (if flatten
+                (progn
+                    (which-key--show-keymap
+                    (symbol-name keymap) (symbol-value keymap) nil t t)
+                    (advice-add #'which-key--update :override #'ignore))
+                (which-key--show-keymap
+                (symbol-name keymap) (symbol-value keymap) nil nil t)))
+            (if transient
+                (set-transient-map (symbol-value keymap)
+                                t #'cosmoem--hide)
+            (internal-push-keymap (symbol-value keymap)
+                                    'overriding-terminal-local-map)))))
+
+;; Adapted From:
+;; Answer: https://emacs.stackexchange.com/a/42240
+;; User: user12563
+;;;###autoload
+(defun cosmoem-hide-all-modal-modes (&optional keymap) (interactive)
+    (when overriding-terminal-local-map (mapc #'(lambda (prefix) (interactive)
+        (message (format "Hiding %s" prefix))
+        (ignore-errors (funcall (intern (concat "meq/" prefix "-cosmoem-hide"))))
+        ;; (internal-push-keymap 'global-map 'overriding-terminal-local-map)
+        ;; (internal-push-keymap nil 'overriding-terminal-local-map)
+        (setq overriding-terminal-local-map nil)) meq/var/modal-prefixes))
+    (meq/which-key-show-top-level keymap))
 
 (defun cosmoem--toggle (&optional keymap flatten transient &rest _)
   "Toggle cosmoem.el showing KEYMAP.
