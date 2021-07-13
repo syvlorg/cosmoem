@@ -110,7 +110,7 @@ pop-ups.")
             ;; (internal-push-keymap nil 'overriding-terminal-local-map)
             ;; (setq overriding-terminal-local-map nil)
             )
-          )) meq/var/ignored-modal-prefixes)
+          ) meq/var/ignored-modal-prefixes))
     (meq/which-key-show-top-level keymap))
 
 (defun cosmoem--toggle (&optional keymap flatten transient &rest _)
