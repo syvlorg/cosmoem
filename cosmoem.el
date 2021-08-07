@@ -42,7 +42,7 @@ Used in addition to `which-key-persistent-popup' in case other
 packages start relying on it.")
 
 ;;;###autoload
-(defun any-popup-showing-p nil (interactive) (or cosmoem--popup-showing-p (which-key--popup-showing-p)))
+(defun cosmoem-any-popup-showing-p nil (interactive) (or cosmoem--popup-showing-p (which-key--popup-showing-p)))
 
 (defvar cosmoem-show-prefix nil
   "One of `which-key-show-prefix'.
