@@ -1,9 +1,9 @@
-;;; cosmoem.el --- An auto-magical, which-key-based hydra banisher. -*- lexical-binding: t; -*-
+;;; cosmoem.el --- An auto-magical, which-key-based deino banisher. -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019 Uros Perisic
 
 ;; Author: Uros Perisic
-;; URL: https://gitlab.com/jjzmajic/cosmoem
+;; URL: https://gitlab.com/jjzmajic/hercules.el
 
 ;; Version: 0.3
 ;; Keywords: convenience
@@ -25,7 +25,7 @@
 ;; This file is not part of Emacs.
 
 ;;; Commentary:
-;; An auto-magical, which-key-based hydra banisher.
+;; An auto-magical, which-key-based deino banisher.
 
 ;; With almost no set-up code, cosmoem lets you call any group of
 ;; related command sequentially with no prefix keys, while showing a
@@ -186,7 +186,7 @@ PACKAGE is nil, simply call `cosmoem--graylist'."
           blacklist-funs
           whitelist-funs
           package)
-  "Summon cosmoem.el to banish your hydras.
+  "Summon cosmoem.el to banish your deinos.
 
 TOGGLE-FUNS, SHOW-FUNS, and HIDE-FUNS define entry and exit
 points for cosmoem.el to show KEYMAP. Both single functions and

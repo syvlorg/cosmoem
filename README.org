@@ -1,8 +1,11 @@
+This has been forked from [[https://gitlab.com/jjzmajic/hercules.el][cyruseuros / jjzmajic]];
+however, due to GitLab's policy of deleting the projects of non-paying users, I have moved my fork here.
+
 [[https://melpa.org/#/cosmoem][file:https://melpa.org/packages/cosmoem-badge.svg]] [[https://stable.melpa.org/#/cosmoem][file:https://stable.melpa.org/packages/cosmoem-badge.svg]]
 
 [[./cosmoem.png]]
 
-An auto-magical, =which-key= based =hydra= banisher.
+An auto-magical, =which-key= based =deino= banisher.
 
 * Overview
 ** Standalone
@@ -48,14 +51,14 @@ window will disappear and you will be dropped back into your regular
 bindings.
 
 ** Relative to Other Packages
-If only there was a way to make a =hydra= without having to list all
+If only there was a way to make a =deino= without having to list all
 the bindings explicitly... Kind of like =which-key=...
 
 =cosmoem.el= implements the functionality of
-[[https://github.com/abo-abo/hydra][hydra]] by leveraging
+[[https://github.com/syvlorg/deino][deino]] by leveraging
 [[https://github.com/justbur/emacs-which-key][which-key]] auto-magic.
 
-Unlike =hydra=, =cosmoem.el= entry and exit points are associated
+Unlike =deino=, =cosmoem.el= entry and exit points are associated
 with functions, not keys. Keys, on the other hand, are defined by
 traditional keymaps, which you can use as-is, or tweak to your liking
 using your tool of choice. =cosmoem.el= doesn't force this choice on
@@ -65,14 +68,14 @@ you. That said, I highly recommend
 Ultimately, =cosmoem.el= saves you time by relying on work that has
 already been done for you --- usually, but not necessarily, as part of
 a time-tested minor-mode. The resulting interfaces tend to be more
-comprehensive than home-grown =hydras=, thus aiding you in
+comprehensive than home-grown =deinos=, thus aiding you in
 discovering new functionality.
 
-Allow me to illustrate my point using an example from =hydras= README:
+Allow me to illustrate my point using an example from =deinos= README:
 
-*** Hydra Setup
+*** Deino Setup
 #+BEGIN_SRC emacs-lisp
-  (defhydra hydra-buffer-menu (:color pink
+  (defdeino deino-buffer-menu (:color pink
                                :hint nil)
     "
   ^Mark^             ^Unmark^           ^Actions^          ^Search
@@ -102,11 +105,11 @@ Allow me to illustrate my point using an example from =hydras= README:
     ("o" Buffer-menu-other-window "other-window" :color blue)
     ("q" quit-window "quit" :color blue))
 
-  (define-key Buffer-menu-mode-map "." 'hydra-buffer-menu/body)
+  (define-key Buffer-menu-mode-map "." 'deino-buffer-menu/body)
 #+END_SRC
 
 *** cosmoem.el Setup
-NOTE: This is the equivalent of hydra's buffer setup applied to window
+NOTE: This is the equivalent of deino's buffer setup applied to window
 manipulation, since I don't use buffer-menu. Implementing it yourself
 should be trivial.
 #+BEGIN_SRC emacs-lisp
@@ -125,7 +128,7 @@ throughout your config).
 
 * Motivation 
 As mentioned, I initially wrote =cosmoem.el= to avoid reinventing the
-wheel by creating elaborate hydras for minor-modes that already worked
+wheel by creating elaborate deinos for minor-modes that already worked
 like they had them, merely lacking the handy popup. These include:
 
 - =macrostep-mode=
@@ -137,7 +140,7 @@ like they had them, merely lacking the handy popup. These include:
 But =cosmoem.el= can use any keymap you have lying around, even if
 there's no mode associated with it. Just make one up. For example, you
 can steal =org-babel-map= and whip up what used to be a massive
-=hydra= in seconds:
+=deino= in seconds:
 
 #+BEGIN_SRC emacs-lisp
   (cosmoem-def
@@ -170,7 +173,7 @@ You can also use *BLACKLIST-KEYS*, *BLACKLIST-FUNS*, and
 *WHITELIST-FUNS*. to this end.
 
 What about defining =cosmoem.el= pop-ups from scratch? Easy. Keep in
-mind this would usually take 4 =defhydra= calls that would need to be
+mind this would usually take 4 =defdeino= calls that would need to be
 explicitly connected.
 
 #+BEGIN_SRC emacs-lisp
