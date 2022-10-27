@@ -85,7 +85,7 @@ in {
             inherit pname;
             src = ./.;
             buildInputs = flatten [ emacs propagatedUserEnvPkgs ];
-            propagatedUserEnvPkgs = with emacs.pkgs; [  ];
+            propagatedUserEnvPkgs = with emacs.pkgs; flatten [ meq meq.propagatedUserEnvPkgs which-key ];
             meta = {
               inherit (emacs.meta) platforms;
               homepage = "https://github.com/syvlorg/${pname}";

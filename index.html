@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-10-27 Thu 15:30 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Jeet Ray" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://combinatronics.io/sylvorg/settings/main/src/styles/primary/syvl.css" />
+<link rel="icon" href="https://combinatronics.io/sylvorg/settings/main/src/icons/favicons/shiny-zigzagoon-galar.ico" sizes="any" />
+<link rel="icon" href="https://combinatronics.io/sylvorg/settings/main/src/icons/favicons/shiny-zigzagoon-galar.svg" />
+<link rel="manifest" href="https://combinatronics.io/sylvorg/settings/main/manifest.json" />
+<link rel="stylesheet" type="text/css" href="https://combinatronics.io/sylvorg/settings/main/src/styles/highlight/paraiso-dark.min.css" />
+<script src="https://combinatronics.io/sylvorg/settings/main/src/scripts/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<div class="header">
+<h1>We Are Syvlorg.</h1>
+<a href="">About Me</a>
+<a href="">About This Website</a>
+<a href="">About Syvlorg</a>
+<a href="https://resume.syvl.org">Résumé</a>
+<a href="https://index.syvl.org">Index</a>
+</div>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org3efdc68">Overview</a>
+<ul>
+<li><a href="#orgc4f90ff">Standalone</a>
+<ul>
+<li><a href="#org2ef9739">Value Proposition</a></li>
+</ul>
+</li>
+<li><a href="#org7acd7ae">Relative to Other Packages</a>
+<ul>
+<li><a href="#org8ba0c1a">Deino Setup</a></li>
+<li><a href="#org1c0cd5c">cosmoem.el Setup</a></li>
+</ul>
+</li>
+<li><a href="#org37464cf">Bonus</a></li>
+</ul>
+</li>
+<li><a href="#org0a8bdef">Motivation</a></li>
+<li><a href="#orgc7c4adb">Interface</a>
+<ul>
+<li><a href="#org396c487">Arguments</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+This has been forked from <a href="https://gitlab.com/jjzmajic/hercules.el">cyruseuros / jjzmajic</a>;
+however, due to GitLab's policy of deleting the projects of non-paying users, I have moved my fork here.
+</p>
+
+<p>
+<a href="https://melpa.org/#/cosmoem"><img src="https://melpa.org/packages/cosmoem-badge.svg" alt="cosmoem-badge.svg" class="org-svg" /></a> <a href="https://stable.melpa.org/#/cosmoem"><img src="https://stable.melpa.org/packages/cosmoem-badge.svg" alt="cosmoem-badge.svg" class="org-svg" /></a>
+</p>
+
+
+<div id="org9a16ab9" class="figure">
+<p><img src="./cosmoem.png" alt="cosmoem.png" />
+</p>
+</div>
+
+<p>
+An auto-magical, <code>which-key</code> based <code>deino</code> banisher.
+</p>
+
+<div id="outline-container-org3efdc68" class="outline-2">
+<h2 id="org3efdc68">Overview</h2>
+<div class="outline-text-2" id="text-org3efdc68">
+</div>
+<div id="outline-container-orgc4f90ff" class="outline-3">
+<h3 id="orgc4f90ff">Standalone</h3>
+<div class="outline-text-3" id="text-orgc4f90ff">
+<p>
+With almost no set-up code, <code>cosmoem.el</code> lets you call any group of
+related command sequentially with no prefix keys, while showing a
+handy popup to remember the bindings for those commands. <code>cosmoem.el</code>
+can create both of these (the grouped commands, and the popup) from
+any keymap. Here's what that looks like:
+</p>
+
+<div class="org-src-container">
+<pre><code class="language-lisp match-braces rainbow-braces">  (cosmoem-def
+   :toggle-funs #'macrostep-mode
+   :keymap 'macrostep-keymap)
+   
+  (define-key &lt;map-symbol&gt; (kbd "&lt;key&gt;") #'macrostep-mode)
+</code></pre>
+</div>
+
+
+<div id="orgf1a2575" class="figure">
+<p><img src="./cosmoem.gif" alt="cosmoem.gif" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2ef9739" class="outline-4">
+<h4 id="org2ef9739">Value Proposition</h4>
+<div class="outline-text-4" id="text-org2ef9739">
+<p>
+Say that you want to move to the next <code>babel</code> source block in an <code>org</code>
+file, and then realize you actually want to execute the one after
+that. You would need to press <code>C-c C-v n C-c C-v n C-c C-v e</code>. Quite a
+lengthy combination.
+</p>
+
+<p>
+But if add this you your init file:
+</p>
+<div class="org-src-container">
+<pre><code class="language-lisp match-braces rainbow-braces">  (cosmoem-def
+   ;; read further to see why this works
+   :toggle-funs #'org-babel-mode
+   :keymap 'org-babel-map
+   :transient t)
+ 
+  ;; tweak binding to taste
+  (define-key org-mode-map (kbd "C-c C-v") #'org-babel-mode)
+</code></pre>
+</div>
+
+<p>
+You would only need to press <code>C-c C-v n n e</code>, and while you're doing
+so, you would get a pop-up listing all the keybindings that follow
+<code>C-c C-v</code> in case you forget. Because of the <code>:transient</code> keyword,
+once you press a key that's not in the pop-up, the <code>cosmoem.el</code>
+window will disappear and you will be dropped back into your regular
+bindings.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7acd7ae" class="outline-3">
+<h3 id="org7acd7ae">Relative to Other Packages</h3>
+<div class="outline-text-3" id="text-org7acd7ae">
+<p>
+If only there was a way to make a <code>deino</code> without having to list all
+the bindings explicitly&#x2026; Kind of like <code>which-key</code>&#x2026;
+</p>
+
+<p>
+<code>cosmoem.el</code> implements the functionality of
+<a href="https://github.com/syvlorg/deino">deino</a> by leveraging
+<a href="https://github.com/justbur/emacs-which-key">which-key</a> auto-magic.
+</p>
+
+<p>
+Unlike <code>deino</code>, <code>cosmoem.el</code> entry and exit points are associated
+with functions, not keys. Keys, on the other hand, are defined by
+traditional keymaps, which you can use as-is, or tweak to your liking
+using your tool of choice. <code>cosmoem.el</code> doesn't force this choice on
+you. That said, I highly recommend
+<a href="https://github.com/noctuid/general.el">general.el</a>.
+</p>
+
+<p>
+Ultimately, <code>cosmoem.el</code> saves you time by relying on work that has
+already been done for you &#x2014; usually, but not necessarily, as part of
+a time-tested minor-mode. The resulting interfaces tend to be more
+comprehensive than home-grown <code>deinos</code>, thus aiding you in
+discovering new functionality.
+</p>
+
+<p>
+Allow me to illustrate my point using an example from <code>deinos</code> README:
+</p>
+</div>
+
+<div id="outline-container-org8ba0c1a" class="outline-4">
+<h4 id="org8ba0c1a">Deino Setup</h4>
+<div class="outline-text-4" id="text-org8ba0c1a">
+<div class="org-src-container">
+<pre><code class="language-lisp match-braces rainbow-braces">  (defdeino deino-buffer-menu (:color pink
+                               :hint nil)
+    "
+  ^Mark^             ^Unmark^           ^Actions^          ^Search
+  ^^^^^^^^-----------------------------------------------------------------
+  _m_: mark          _u_: unmark        _x_: execute       _R_: re-isearch
+  _s_: save          _U_: unmark up     _b_: bury          _I_: isearch
+  _d_: delete        ^ ^                _g_: refresh       _O_: multi-occur
+  _D_: delete up     ^ ^                _T_: files only: % -28`Buffer-menu-files-only
+  _~_: modified
+  "
+    ("m" Buffer-menu-mark)
+    ("u" Buffer-menu-unmark)
+    ("U" Buffer-menu-backup-unmark)
+    ("d" Buffer-menu-delete)
+    ("D" Buffer-menu-delete-backwards)
+    ("s" Buffer-menu-save)
+    ("~" Buffer-menu-not-modified)
+    ("x" Buffer-menu-execute)
+    ("b" Buffer-menu-bury)
+    ("g" revert-buffer)
+    ("T" Buffer-menu-toggle-files-only)
+    ("O" Buffer-menu-multi-occur :color blue)
+    ("I" Buffer-menu-isearch-buffers :color blue)
+    ("R" Buffer-menu-isearch-buffers-regexp :color blue)
+    ("c" nil "cancel")
+    ("v" Buffer-menu-select "select" :color blue)
+    ("o" Buffer-menu-other-window "other-window" :color blue)
+    ("q" quit-window "quit" :color blue))
+
+  (define-key Buffer-menu-mode-map "." 'deino-buffer-menu/body)
+</code></pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1c0cd5c" class="outline-4">
+<h4 id="org1c0cd5c">cosmoem.el Setup</h4>
+<div class="outline-text-4" id="text-org1c0cd5c">
+<p>
+NOTE: This is the equivalent of deino's buffer setup applied to window
+manipulation, since I don't use buffer-menu. Implementing it yourself
+should be trivial.
+</p>
+<div class="org-src-container">
+<pre><code class="language-lisp match-braces rainbow-braces">  (cosmoem-def
+   :show-funs #'windresize
+   :hide-funs '(windresize-exit windresize-cancel-and-quit)
+   :keymap 'windresize-map)
+   
+  (define-key &lt;map-symbol&gt; (kbd "&lt;key&gt;") #'windresize)
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org37464cf" class="outline-3">
+<h3 id="org37464cf">Bonus</h3>
+<div class="outline-text-3" id="text-org37464cf">
+<p>
+Last, and definitely least, <code>cosmoem.el</code> provides a more consistent
+interface for all your keybinding popup needs (the same <code>which-key</code> UI
+throughout your config).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0a8bdef" class="outline-2">
+<h2 id="org0a8bdef">Motivation</h2>
+<div class="outline-text-2" id="text-org0a8bdef">
+<p>
+As mentioned, I initially wrote <code>cosmoem.el</code> to avoid reinventing the
+wheel by creating elaborate deinos for minor-modes that already worked
+like they had them, merely lacking the handy popup. These include:
+</p>
+
+<ul class="org-ul">
+<li><code>macrostep-mode</code></li>
+<li><code>edebug-mode</code></li>
+<li><code>debugger-mode</code></li>
+<li><code>windresize</code></li>
+<li>many more</li>
+</ul>
+
+<p>
+But <code>cosmoem.el</code> can use any keymap you have lying around, even if
+there's no mode associated with it. Just make one up. For example, you
+can steal <code>org-babel-map</code> and whip up what used to be a massive
+<code>deino</code> in seconds:
+</p>
+
+<div class="org-src-container">
+<pre><code class="language-lisp match-braces rainbow-braces">  (cosmoem-def
+   :toggle-funs #'org-babel-mode
+   :keymap 'org-babel-map
+   :transient t)
+   
+  (define-key &lt;map-symbol&gt; (kbd "&lt;key&gt;") #'org-babel-mode)
+</code></pre>
+</div>
+
+<p>
+Pressing any key outside the map will leave the pseudo-mode and hide
+the <code>cosmoem.el</code> pop-up if <b>TRANSIENT</b> is <code>t</code>. But you can also use
+the <b>HIDE-FUNS</b> and <b>TOGGLE-FUNS</b> arguments to do the same while
+executing one last Hail Mary command. Combining them is not a problem
+either.
+</p>
+
+<p>
+Too crowded for you?
+</p>
+
+<div class="org-src-container">
+<pre><code class="language-lisp match-braces rainbow-braces">  (cosmoem-def
+   :toggle-funs #'org-babel-mode
+   :keymap 'org-babel-map
+   :whitelist-keys '("n" "p" "t")
+   :transient t)
+   
+  (define-key &lt;map-symbol&gt; (kbd "&lt;key&gt;") #'org-babel-mode)
+</code></pre>
+</div>
+
+<p>
+You can also use <b>BLACKLIST-KEYS</b>, <b>BLACKLIST-FUNS</b>, and
+<b>WHITELIST-FUNS</b>. to this end.
+</p>
+
+<p>
+What about defining <code>cosmoem.el</code> pop-ups from scratch? Easy. Keep in
+mind this would usually take 4 <code>defdeino</code> calls that would need to be
+explicitly connected.
+</p>
+
+<div class="org-src-container">
+<pre><code class="language-lisp match-braces rainbow-braces">(general-def
+  :prefix-map 'my-random-map
+  "f" #'foo
+  "b" #'bar
+  "z" #'baz
+  "m" '(:ignore t :wk "mmap")
+  "mf" #'mfoo
+  "mb" #'mbar
+  "mz" #'mbaz
+  "n" '(:ignore t :wk "nmap")
+  "nf" #'nfoo
+  "nb" #'nbar
+  "nz" #'nbaz
+  "o" '(:ignore t :wk "omap")
+  "of" #'ofoo
+  "ob" #'obar
+  "oz" #'obaz)
+
+(cosmoem-def
+ :toggle-funs #'my-random-mode
+ :keymap 'my-random-map
+ :transient t)
+
+(define-key &lt;map-symbol&gt; (kbd "&lt;key&gt;") #'my-random-mode)
+</code></pre>
+</div>
+
+<p>
+Want to still see the entire keymap on prefix-key press? Done. Just call
+<code>cosmoem-def</code> like so instead:
+</p>
+
+<div class="org-src-container">
+<pre><code class="language-lisp match-braces rainbow-braces">  (cosmoem-def
+   :toggle-funs #'my-random-mode
+   :keymap 'my-random-map
+   :transient t
+   ;; flatten nested keymaps
+   :flatten t)
+</code></pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc7c4adb" class="outline-2">
+<h2 id="orgc7c4adb">Interface</h2>
+<div class="outline-text-2" id="text-orgc7c4adb">
+<p>
+The only userland function you should concern yourself with is
+<code>cosmoem-def</code>. As such, you should get to know it well.
+</p>
+</div>
+
+<div id="outline-container-org396c487" class="outline-3">
+<h3 id="org396c487">Arguments</h3>
+<div class="outline-text-3" id="text-org396c487">
+<p>
+<b>TOGGLE-FUNS</b>, <b>SHOW-FUNS</b>, and <b>HIDE-FUNS</b> define entry and exit
+points for cosmoem.el to show <b>KEYMAP</b>. Both single functions and
+lists work. As all other arguments to <code>cosmoem-def</code>, these must be
+quoted.
+</p>
+
+<p>
+<b>KEYMAP</b> specifies the keymap for <code>cosmoem.el</code> to make a pop-up out
+of.  If <b>KEYMAP</b> is <code>nil</code>, it is assumed that one of <b>SHOW-FUNS</b> or
+<b>TOGGLE-FUNS</b> results in a <code>which-key--show-popup</code> call. This may be
+useful for functions such as <code>which-key-show-top-level</code>. I use it to
+remind myself of some obscure Evil commands from time to time.
+</p>
+
+<p>
+<b>FLATTEN</b> displays all maps and sub-maps together, without redrawing
+on prefix-key presses. This allows for multi-key combinations in a
+single <code>cosmoem.el</code> buffer.
+</p>
+
+<p>
+<b>BLACKLIST-KEYS</b> and <b>WHITELIST-KEYS</b> specify which (<code>kbd</code>
+interpretable) keys should removed from/allowed to remain on
+<b>KEYMAP</b>. Handy if you want to unbind things in bulk and don't want to
+get your hands dirty with keymaps. Both single characters and lists
+work. Blacklists take precedence over whitelists.
+</p>
+
+<p>
+<b>BLACKLIST-FUNS</b> and <b>WHITELIST-FUNS</b> are analogous to
+<b>BLACKLIST-KEYS</b> and <b>WHITELIST-KEYS</b> except that they operate on
+function symbols. These might be useful if a keymap specifies multiple
+bindings for a commands and pruning it is more efficient this
+way. Blacklists again take precedence over whitelists.
+</p>
+
+<p>
+<b>PACKAGE</b> must be passed along with <b>BLACKLIST-KEYS</b>,
+<b>WHITELIST-KEYS</b>, <b>BLACKLIST-FUNS</b>, or <b>WHITELIST-FUNS</b> if <b>KEYMAP</b>
+belongs to a lazy loaded package. Its contents should be the package
+name as a quoted symbol.
+</p>
+
+<p>
+Setting <b>TRANSIENT</b> to <code>t</code> allows you to get away with not setting
+<b>HIDE-FUNS</b> or <b>TOGGLE-FUNS</b> by dismissing cosmoem.el whenever you
+press a key not on <b>KEYMAP</b>.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Jeet Ray</p>
+<p class="date">Created: 2022-10-27 Thu 15:30</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
