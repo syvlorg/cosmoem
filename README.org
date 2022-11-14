@@ -1,4 +1,4 @@
-This has been forked from [[https://gitlab.com/jjzmajic/hercules.el][cyruseuros / jjzmajic]];
+~NOTE:~ This has been forked from [[https://gitlab.com/jjzmajic/hercules.el][cyruseuros / @jjzmajic]];
 however, due to GitLab's policy of deleting the projects of non-paying users, I have moved my fork here.
 
 [[https://melpa.org/#/cosmoem][file:https://melpa.org/packages/cosmoem-badge.svg]] [[https://stable.melpa.org/#/cosmoem][file:https://stable.melpa.org/packages/cosmoem-badge.svg]]
