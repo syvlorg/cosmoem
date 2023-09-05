@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-09-04 Mon 14:48 -->
+<!-- 2023-09-04 Mon 20:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -31,26 +31,26 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0cb1d38">Overview</a>
+<li><a href="#orgf18aaca">Overview</a>
 <ul>
-<li><a href="#org9ea6907">Standalone</a>
+<li><a href="#orgb87b556">Standalone</a>
 <ul>
-<li><a href="#org0ed7a6b">Value Proposition</a></li>
+<li><a href="#org8520662">Value Proposition</a></li>
 </ul>
 </li>
-<li><a href="#org8ce8714">Relative to Other Packages</a>
+<li><a href="#org3ecdd11">Relative to Other Packages</a>
 <ul>
-<li><a href="#orge202c76">Deino Setup</a></li>
-<li><a href="#org5c44d6e">cosmoem.el Setup</a></li>
+<li><a href="#org4bbdb91">Deino Setup</a></li>
+<li><a href="#orgabe551c">cosmoem.el Setup</a></li>
 </ul>
 </li>
-<li><a href="#org98f3f0a">Bonus</a></li>
+<li><a href="#orgddbfbb2">Bonus</a></li>
 </ul>
 </li>
-<li><a href="#org954d543">Motivation</a></li>
-<li><a href="#org54d970f">Interface</a>
+<li><a href="#orgca30f14">Motivation</a></li>
+<li><a href="#orga1fd147">Interface</a>
 <ul>
-<li><a href="#org14d2c45">Arguments</a></li>
+<li><a href="#orgd4d5246">Arguments</a></li>
 </ul>
 </li>
 </ul>
@@ -66,7 +66,7 @@ however, due to GitLab's policy of deleting the projects of non-paying users, I 
 </p>
 
 
-<div id="org8444cdf" class="figure">
+<div id="org7fe4769" class="figure">
 <p><img src="./cosmoem.png" alt="cosmoem.png" />
 </p>
 </div>
@@ -75,13 +75,13 @@ however, due to GitLab's policy of deleting the projects of non-paying users, I 
 An auto-magical, <code>which-key</code> based <code>deino</code> banisher.
 </p>
 
-<div id="outline-container-org0cb1d38" class="outline-2">
-<h2 id="org0cb1d38">Overview</h2>
-<div class="outline-text-2" id="text-org0cb1d38">
+<div id="outline-container-orgf18aaca" class="outline-2">
+<h2 id="orgf18aaca">Overview</h2>
+<div class="outline-text-2" id="text-orgf18aaca">
 </div>
-<div id="outline-container-org9ea6907" class="outline-3">
-<h3 id="org9ea6907">Standalone</h3>
-<div class="outline-text-3" id="text-org9ea6907">
+<div id="outline-container-orgb87b556" class="outline-3">
+<h3 id="orgb87b556">Standalone</h3>
+<div class="outline-text-3" id="text-orgb87b556">
 <p>
 With almost no set-up code, <code>cosmoem.el</code> lets you call any group of
 related command sequentially with no prefix keys, while showing a
@@ -100,15 +100,15 @@ any keymap. Here's what that looks like:
 </div>
 
 
-<div id="org8724ca2" class="figure">
+<div id="org748ad4c" class="figure">
 <p><img src="./cosmoem.gif" alt="cosmoem.gif" />
 </p>
 </div>
 </div>
 
-<div id="outline-container-org0ed7a6b" class="outline-4">
-<h4 id="org0ed7a6b">Value Proposition</h4>
-<div class="outline-text-4" id="text-org0ed7a6b">
+<div id="outline-container-org8520662" class="outline-4">
+<h4 id="org8520662">Value Proposition</h4>
+<div class="outline-text-4" id="text-org8520662">
 <p>
 Say that you want to move to the next <code>babel</code> source block in an <code>org</code>
 file, and then realize you actually want to execute the one after
@@ -143,9 +143,9 @@ bindings.
 </div>
 </div>
 
-<div id="outline-container-org8ce8714" class="outline-3">
-<h3 id="org8ce8714">Relative to Other Packages</h3>
-<div class="outline-text-3" id="text-org8ce8714">
+<div id="outline-container-org3ecdd11" class="outline-3">
+<h3 id="org3ecdd11">Relative to Other Packages</h3>
+<div class="outline-text-3" id="text-org3ecdd11">
 <p>
 If only there was a way to make a <code>deino</code> without having to list all
 the bindings explicitly&#x2026; Kind of like <code>which-key</code>&#x2026;
@@ -179,9 +179,9 @@ Allow me to illustrate my point using an example from <code>deinos</code> README
 </p>
 </div>
 
-<div id="outline-container-orge202c76" class="outline-4">
-<h4 id="orge202c76">Deino Setup</h4>
-<div class="outline-text-4" id="text-orge202c76">
+<div id="outline-container-org4bbdb91" class="outline-4">
+<h4 id="org4bbdb91">Deino Setup</h4>
+<div class="outline-text-4" id="text-org4bbdb91">
 <div class="org-src-container">
 <pre><code class="language-lisp match-braces rainbow-braces">  (defdeino deino-buffer-menu (<span style="font-weight: bold;">:color</span> pink
                                <span style="font-weight: bold;">:hint</span> nil)
@@ -219,9 +219,9 @@ Allow me to illustrate my point using an example from <code>deinos</code> README
 </div>
 </div>
 
-<div id="outline-container-org5c44d6e" class="outline-4">
-<h4 id="org5c44d6e">cosmoem.el Setup</h4>
-<div class="outline-text-4" id="text-org5c44d6e">
+<div id="outline-container-orgabe551c" class="outline-4">
+<h4 id="orgabe551c">cosmoem.el Setup</h4>
+<div class="outline-text-4" id="text-orgabe551c">
 <p>
 NOTE: This is the equivalent of deino's buffer setup applied to window
 manipulation, since I don't use buffer-menu. Implementing it yourself
@@ -240,9 +240,9 @@ should be trivial.
 </div>
 </div>
 
-<div id="outline-container-org98f3f0a" class="outline-3">
-<h3 id="org98f3f0a">Bonus</h3>
-<div class="outline-text-3" id="text-org98f3f0a">
+<div id="outline-container-orgddbfbb2" class="outline-3">
+<h3 id="orgddbfbb2">Bonus</h3>
+<div class="outline-text-3" id="text-orgddbfbb2">
 <p>
 Last, and definitely least, <code>cosmoem.el</code> provides a more consistent
 interface for all your keybinding popup needs (the same <code>which-key</code> UI
@@ -252,9 +252,9 @@ throughout your config).
 </div>
 </div>
 
-<div id="outline-container-org954d543" class="outline-2">
-<h2 id="org954d543">Motivation</h2>
-<div class="outline-text-2" id="text-org954d543">
+<div id="outline-container-orgca30f14" class="outline-2">
+<h2 id="orgca30f14">Motivation</h2>
+<div class="outline-text-2" id="text-orgca30f14">
 <p>
 As mentioned, I initially wrote <code>cosmoem.el</code> to avoid reinventing the
 wheel by creating elaborate deinos for minor-modes that already worked
@@ -365,18 +365,18 @@ Want to still see the entire keymap on prefix-key press? Done. Just call
 </div>
 </div>
 
-<div id="outline-container-org54d970f" class="outline-2">
-<h2 id="org54d970f">Interface</h2>
-<div class="outline-text-2" id="text-org54d970f">
+<div id="outline-container-orga1fd147" class="outline-2">
+<h2 id="orga1fd147">Interface</h2>
+<div class="outline-text-2" id="text-orga1fd147">
 <p>
 The only userland function you should concern yourself with is
 <code>cosmoem-def</code>. As such, you should get to know it well.
 </p>
 </div>
 
-<div id="outline-container-org14d2c45" class="outline-3">
-<h3 id="org14d2c45">Arguments</h3>
-<div class="outline-text-3" id="text-org14d2c45">
+<div id="outline-container-orgd4d5246" class="outline-3">
+<h3 id="orgd4d5246">Arguments</h3>
+<div class="outline-text-3" id="text-orgd4d5246">
 <p>
 <b>TOGGLE-FUNS</b>, <b>SHOW-FUNS</b>, and <b>HIDE-FUNS</b> define entry and exit
 points for cosmoem.el to show <b>KEYMAP</b>. Both single functions and
@@ -432,7 +432,7 @@ press a key not on <b>KEYMAP</b>.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Jeet Ray</p>
-<p class="date">Created: 2023-09-04 Mon 14:48</p>
+<p class="date">Created: 2023-09-04 Mon 20:40</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
